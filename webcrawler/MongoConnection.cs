@@ -16,15 +16,36 @@ namespace webcrawler
         {
             MongoClient dbClient = new MongoClient("mongodb://localhost:27017/");
 
-            
 
-            var database = dbClient.GetDatabase ("AntennsCrawler");
-            collection = database.GetCollection<BsonDocument> ("Links");
+
+            var database = dbClient.GetDatabase("AntennsCrawler");
+            collection = database.GetCollection<BsonDocument>("Links");
         }
 
         public static void InsertToDB(BsonDocument doc)
         {
             collection.InsertOne(doc);
+        }
+
+        public static void UpdateDB(string link)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("url", link);
+            var update = Builders<BsonDocument>.Update.Set("visited", true);
+            collection.UpdateOne(filter, update);
+        }
+
+
+        public static List<Link> ReadAllDB()
+        {
+            List<Link> links = new List<Link>();
+
+            var documents = collection.Find(new BsonDocument()).ToList();
+            foreach (BsonDocument doc in documents)
+            {
+                links.Add(new Link(doc["url"].AsString, doc["origin"].AsString, doc["visited"].AsBoolean));
+            }
+
+            return links;
         }
     }
 }

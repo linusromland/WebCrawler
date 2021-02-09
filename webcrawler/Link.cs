@@ -12,9 +12,10 @@ namespace webcrawler
 
         public bool visited = false;
 
-        public Link(string inLink, string inOrigin){
+        public Link(string inLink, string inOrigin, bool inVisited = false){
             link = inLink;
             originLink = inOrigin;
+            visited = inVisited;
         }
     }
 }

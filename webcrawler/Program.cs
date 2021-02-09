@@ -15,8 +15,8 @@ namespace webcrawler
         static void Main(string[] args)
         {
             MongoConnection.ConnectToDB();
+            links = MongoConnection.ReadAllDB();
             Crawl();
-            PrintLinks();
         }
 
 
@@ -27,7 +27,7 @@ namespace webcrawler
         public static void Crawl()
         {
             //Get initial links
-            GetLinksFromSite(startLink);
+            if(links.Count == 0) GetLinksFromSite(startLink);
 
             for (int j = 0; j < links.Count; j++)
             {
@@ -35,6 +35,7 @@ namespace webcrawler
                 if (!link.visited)
                 {
                     links[j].visited = true;
+                    MongoConnection.UpdateDB(link.link);
 
                     GetLinksFromSite(link.link);
                 }
@@ -75,17 +76,10 @@ namespace webcrawler
                 }
 
                 links.Add(new Link(url, currentLink));
-                var bson = new BsonDocument { { "url", url }, { "origin", currentLink } };
+                var bson = new BsonDocument { { "url", url }, { "origin", currentLink }, { "visited", false } };
                 MongoConnection.InsertToDB(bson);
-                here:;
-            }
-        }
 
-        public static void PrintLinks()
-        {
-            foreach (Link link in links)
-            {
-                Console.WriteLine("Link: " + link.link + "  Origin: " + link.originLink);
+                here:;
             }
         }
     }
