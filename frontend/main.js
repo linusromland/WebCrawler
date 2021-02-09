@@ -25,6 +25,8 @@ input.oninput = function () {
 function generateList(json) {
   out.innerHTML = "";
   json.forEach((element) => {
+    var div = document.createElement("DIV");
+
     var result = document.createElement("A");
     if (element.url.length >= 50) {
       result.innerText = element.url.substring(0, 50) + "...";
@@ -33,7 +35,21 @@ function generateList(json) {
     }
 
     result.href = element.url;
-    out.appendChild(result);
+    div.appendChild(result);
+    div.appendChild(document.createElement("BR"));
+
+    var result = document.createElement("A");
+    if (element.origin.length >= 50) {
+      result.innerText = element.origin.substring(0, 50) + "...";
+    } else {
+      result.innerText = element.origin;
+    }
+
+    result.href = element.origin;
+    div.appendChild(result);
+    div.classList.add("block");
+
+    out.appendChild(div);
     out.appendChild(document.createElement("BR"));
     out.appendChild(document.createElement("BR"));
   });
