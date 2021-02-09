@@ -10,6 +10,8 @@ namespace webcrawler
         public string link = "default link";
         public string originLink = "origin link"; //TODO: make it possible to add several origins
 
+        public bool visited = false;
+
         public Link(string inLink, string inOrigin){
             link = inLink;
             originLink = inOrigin;
