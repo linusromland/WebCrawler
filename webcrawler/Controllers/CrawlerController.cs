@@ -21,6 +21,15 @@ namespace webcrawler.Controllers
 
             string hej = "";
 
+            var html = new HtmlWeb();
+            var document = html.Load("https://romland.space");
+
+            var page = document.DocumentNode;
+
+            foreach(var item in page.QuerySelectorAll("a"))
+            {
+                Console.WriteLine(item.GetAttributes("href").First().Value);
+            }
 
             links.Add(new Link(hej, ""));
             return links;
