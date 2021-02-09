@@ -37,7 +37,6 @@ exports.cnctDB = (collectionname) => {
 exports.searchInDB = async (link) => {
   const regex = new RegExp(escapeRegex(link), "gi");
   let tmp = await db.collection("Links").find({ url: regex }).limit(500).toArray();
-  console.log(tmp)
   return tmp;
 };
 
