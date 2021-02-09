@@ -19,8 +19,6 @@ namespace webcrawler.Controllers
         {
             List<Link> links = new List<Link>();
 
-            string hej = "";
-
             var html = new HtmlWeb();
             var document = html.Load("https://romland.space");
 
@@ -29,9 +27,9 @@ namespace webcrawler.Controllers
             foreach(var item in page.QuerySelectorAll("a"))
             {
                 Console.WriteLine(item.GetAttributes("href").First().Value);
+                links.Add(new Link(item.GetAttributes("href").First().Value, "https://romland.space"));
             }
 
-            links.Add(new Link(hej, ""));
             return links;
         }
     }
