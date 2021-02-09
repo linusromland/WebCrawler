@@ -1,4 +1,3 @@
-console.log("Hmm");
 
 let out = document.getElementById("out");
 
@@ -27,13 +26,13 @@ function generateList(json) {
   out.innerHTML = "";
   json.forEach((element) => {
     var result = document.createElement("A");
-    if (element.link.length >= 50) {
-      result.innerText = element.link.substring(0, 50) + "...";
+    if (element.url.length >= 50) {
+      result.innerText = element.url.substring(0, 50) + "...";
     } else {
-      result.innerText = element.link;
+      result.innerText = element.url;
     }
 
-    result.href = element.link;
+    result.href = element.url;
     out.appendChild(result);
     out.appendChild(document.createElement("BR"));
     out.appendChild(document.createElement("BR"));
