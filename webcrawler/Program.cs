@@ -20,14 +20,14 @@ namespace webcrawler
         }
 
 
-        static string startLink = "https://romland.space";
+        static string startLink = "https://romland.space/";
 
         static List<Link> links = new List<Link>();
 
         public static void Crawl()
         {
             //Get initial links
-            if(links.Count == 0) GetLinksFromSite(startLink);
+            if (links.Count == 0) GetLinksFromSite(startLink);
 
             for (int j = 0; j < links.Count; j++)
             {
@@ -55,9 +55,10 @@ namespace webcrawler
             {
                 return;
             }
-            
 
             var page = document.DocumentNode;
+
+            List<string> linksOnSite = new List<string>();
 
             foreach (var item in page.QuerySelectorAll("a"))
             {
@@ -67,19 +68,39 @@ namespace webcrawler
 
                 if (!url.StartsWith("https")) continue;
 
+                //Remove URL fragment
+                var hashPos = url.IndexOf('#');
+                if (hashPos != -1)
+                {
+                    url = url.Substring(0, hashPos);
+                }
+
+                //Check if link is already on same site
+                foreach (var link in linksOnSite)
+                {
+                    if (link == url)
+                    {
+                        goto here;
+                    }
+                }
+
                 //Check if link is already in list
                 foreach (var link in links)
                 {
-                    if(link.link == url){
+                    if (link.link == url)
+                    {
                         goto here;
                     }
                 }
 
                 links.Add(new Link(url, currentLink));
+                linksOnSite.Add(url);
+
+                //Insert link into MongoDB
                 var bson = new BsonDocument { { "url", url }, { "origin", currentLink }, { "visited", false } };
                 MongoConnection.InsertToDB(bson);
 
-                here:;
+            here:;
             }
         }
     }
