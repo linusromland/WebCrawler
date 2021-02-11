@@ -26,10 +26,12 @@ namespace webcrawler
         public void Crawl()
         {
             //Get initial links
-            if (links.Count == 0) GetLinksFromSite(startLink);
-            for (int j = 0; j < links.Count; j++) //broken for loop, need replacment
+            int count = links.Count;
+            if (count == 0) GetLinksFromSite(startLink);
+            for (int j = 0; j < count; j++) //broken for loop, need replacment
             {
-                Console.WriteLine(links.Count);
+                Console.WriteLine(count);
+                count = links.Count;
                 links = MongoConnection.ReadAllDB();
                 if (!links[j]["visited"].AsBoolean)
                 {
