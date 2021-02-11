@@ -28,17 +28,26 @@ namespace webcrawler
             //Get initial links
             int count = links.Count;
             if (count == 0) GetLinksFromSite(startLink);
-            for (int j = 0; j < count; j++) //broken for loop, need replacment
+            int j = 0;
+            while (true)
             {
-                Console.WriteLine(count);
-                count = links.Count;
-                links = MongoConnection.ReadAllDB();
-                if (!links[j]["visited"].AsBoolean)
+                try
                 {
-                    MongoConnection.UpdateDB(links[j]["url"].AsString);
+                    count = links.Count;
+                    links = MongoConnection.ReadAllDB();
+                    if (!links[j]["visited"].AsBoolean)
+                    {
+                        MongoConnection.UpdateDB(links[j]["url"].AsString);
 
-                    GetLinksFromSite(links[j]["url"].AsString);
+                        GetLinksFromSite(links[j]["url"].AsString);
+                    }
                 }
+                catch
+                {
+                    break;
+                }
+                
+                j++;
             }
         }
 
