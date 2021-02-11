@@ -35,17 +35,9 @@ namespace webcrawler
         }
 
 
-        public static List<Link> ReadAllDB()
+        public static List<BsonDocument> ReadAllDB()
         {
-            List<Link> links = new List<Link>();
-
-            var documents = collection.Find(new BsonDocument()).ToList();
-            foreach (BsonDocument doc in documents)
-            {
-                links.Add(new Link(doc["url"].AsString, doc["origin"].AsString, doc["visited"].AsBoolean));
-            }
-
-            return links;
+            return collection.Find(new BsonDocument()).ToList();
         }
     }
 }

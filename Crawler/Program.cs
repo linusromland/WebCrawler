@@ -15,11 +15,7 @@ namespace webcrawler
         static void Main(string[] args)
         {
             MongoConnection.ConnectToDB();
-            links = MongoConnection.ReadAllDB();
-            Crawler tmp = new Crawler(links, "https://romland.space/");
+            Crawler tmp = new Crawler("https://romland.space/");
         }
-
-        public static List<Link> links = new List<Link>();
-
     }
 }

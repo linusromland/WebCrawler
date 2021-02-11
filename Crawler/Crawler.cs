@@ -11,13 +11,14 @@ namespace webcrawler
 {
     class Crawler
     {
-        List<Link> links;
         string startLink = "";
+        List<BsonDocument> links;
 
-        public Crawler(List<Link> linksIn, string startlinkIn)
+        public Crawler(string startlinkIn)
         {
             startLink = startlinkIn;
-            links = linksIn;
+            links = MongoConnection.ReadAllDB();
+            Console.WriteLine(links.Count);
             Crawl();
         }
 
@@ -26,16 +27,15 @@ namespace webcrawler
         {
             //Get initial links
             if (links.Count == 0) GetLinksFromSite(startLink);
-
-            for (int j = 0; j < links.Count; j++)
+            for (int j = 0; j < links.Count; j++) //broken for loop, need replacment
             {
-                Link link = links[j];
-                if (!link.visited)
+                Console.WriteLine(links.Count);
+                links = MongoConnection.ReadAllDB();
+                if (!links[j]["visited"].AsBoolean)
                 {
-                    links[j].visited = true;
-                    MongoConnection.UpdateDB(link.link);
+                    MongoConnection.UpdateDB(links[j]["url"].AsString);
 
-                    GetLinksFromSite(link.link);
+                    GetLinksFromSite(links[j]["url"].AsString);
                 }
             }
         }
@@ -83,15 +83,14 @@ namespace webcrawler
                 }
 
                 //Check if link is already in list
-                foreach (Link link in links)
+                foreach (BsonDocument link in links)
                 {
-                    if (link.link == url)
+                    if (link["url"].AsString == url)
                     {
                         goto here;
                     }
                 }
 
-                links.Add(new Link(url, currentLink));
                 linksOnSite.Add(url);
 
                 //Insert link into MongoDB
