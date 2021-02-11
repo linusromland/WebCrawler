@@ -18,7 +18,7 @@ namespace webcrawler
 
 
 
-            var database = dbClient.GetDatabase("AntennsCrawler");
+            IMongoDatabase database = dbClient.GetDatabase("AntennsCrawler");
             collection = database.GetCollection<BsonDocument>("Links");
         }
 
@@ -29,8 +29,8 @@ namespace webcrawler
 
         public static void UpdateDB(string link)
         {
-            var filter = Builders<BsonDocument>.Filter.Eq("url", link);
-            var update = Builders<BsonDocument>.Update.Set("visited", true);
+            HtmlNode filter = Builders<BsonDocument>.Filter.Eq("url", link);
+            HtmlNode update = Builders<BsonDocument>.Update.Set("visited", true);
             collection.UpdateOne(filter, update);
         }
 
@@ -39,7 +39,7 @@ namespace webcrawler
         {
             List<Link> links = new List<Link>();
 
-            var documents = collection.Find(new BsonDocument()).ToList();
+            HtmlNode documents = collection.Find(new BsonDocument()).ToList();
             foreach (BsonDocument doc in documents)
             {
                 links.Add(new Link(doc["url"].AsString, doc["origin"].AsString, doc["visited"].AsBoolean));
