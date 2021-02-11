@@ -29,8 +29,8 @@ namespace webcrawler
 
         public static void UpdateDB(string link)
         {
-            HtmlNode filter = Builders<BsonDocument>.Filter.Eq("url", link);
-            HtmlNode update = Builders<BsonDocument>.Update.Set("visited", true);
+            var filter = Builders<BsonDocument>.Filter.Eq("url", link);
+            var update = Builders<BsonDocument>.Update.Set("visited", true);
             collection.UpdateOne(filter, update);
         }
 
@@ -39,7 +39,7 @@ namespace webcrawler
         {
             List<Link> links = new List<Link>();
 
-            HtmlNode documents = collection.Find(new BsonDocument()).ToList();
+            var documents = collection.Find(new BsonDocument()).ToList();
             foreach (BsonDocument doc in documents)
             {
                 links.Add(new Link(doc["url"].AsString, doc["origin"].AsString, doc["visited"].AsBoolean));

@@ -11,10 +11,18 @@ namespace webcrawler
 {
     class Crawler
     {
-        static List<Link> links = Program.links;
-        static string startLink = "https://romland.space/";
+        List<Link> links;
+        string startLink = "";
 
-        public static void Crawl()
+        public Crawler(List<Link> linksIn, string startlinkIn)
+        {
+            startLink = startlinkIn;
+            links = linksIn;
+            Crawl();
+        }
+
+
+        public void Crawl()
         {
             //Get initial links
             if (links.Count == 0) GetLinksFromSite(startLink);
@@ -32,7 +40,7 @@ namespace webcrawler
             }
         }
 
-        public static void GetLinksFromSite(string currentLink)
+        public void GetLinksFromSite(string currentLink)
         {
             HtmlWeb html = new HtmlWeb();
             HtmlDocument document;

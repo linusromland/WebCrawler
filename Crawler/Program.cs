@@ -16,7 +16,7 @@ namespace webcrawler
         {
             MongoConnection.ConnectToDB();
             links = MongoConnection.ReadAllDB();
-            Crawler.Crawl();
+            Crawler tmp = new Crawler(links, "https://romland.space/");
         }
 
         public static List<Link> links = new List<Link>();
