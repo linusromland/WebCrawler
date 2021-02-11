@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Fizzler.Systems.HtmlAgilityPack;
 using MongoDB.Bson;
-
+using System.Threading;
 
 namespace webcrawler
 {
@@ -15,6 +15,18 @@ namespace webcrawler
         static void Main(string[] args)
         {
             MongoConnection.ConnectToDB();
+            List<Thread> Threads = new List<Thread>();
+
+            for (int i = 0; i < 1; i++)
+            {
+                Console.WriteLine("New");
+                Threads.Add(new Thread(createCrawler));
+                Threads[i].Start();
+            }
+
+        }
+        public static void createCrawler()
+        {
             Crawler tmp = new Crawler("https://romland.space/");
         }
     }
