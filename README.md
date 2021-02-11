@@ -18,7 +18,7 @@ Then you go to the webcrawler folder and run:
 # Goal
 
 My goal of this project is to create a better crawler then my <a href="https://github.com/linusromland/WebCrawlerJS">NodeJS version</a>. <br>
-My starting point is @superfroggman's <a href="https://github.com/superfroggman/WebCrawler">Webcrawler</a> since it was a good base.<br>
+My starting point is <a href="https://github.com/superfroggman">@superfroggman</a>'s <a href="https://github.com/superfroggman/WebCrawler">Webcrawler</a> since it was a good base.<br>
 What i will add to this project (i hope) is multhreading for much better performance, and "hits" taken from the hits system i had in <a href="https://github.com/linusromland/WebCrawlerJS">WebCrawlerJS</a>. This will add a ranking system for sites. 
 
 
