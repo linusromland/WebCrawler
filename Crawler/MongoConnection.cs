@@ -39,5 +39,11 @@ namespace webcrawler
         {
             return collection.Find(new BsonDocument()).ToList();
         }
+
+        public static BsonDocument CheckExistDB(string link)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("url", link);
+            return collection.Find(filter).FirstOrDefault();
+        }
     }
 }

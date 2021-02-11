@@ -29,8 +29,7 @@ namespace webcrawler
             if (count == 0) GetLinksFromSite(startLink);
             while (true)
             {
-                try
-                {
+
                     count = links.Count;
                     Random rnd = new Random();
                     links = MongoConnection.ReadAllDB();
@@ -40,13 +39,6 @@ namespace webcrawler
 
                         GetLinksFromSite(links[Program.index]["url"].AsString);
                     }
-                }
-                catch
-                {
-                    Console.WriteLine("SOMETHING WENT WRONG OR OUT OF LINKS!");
-                    break;
-                }
-                
                 Program.index++;
             }
         }
@@ -94,13 +86,11 @@ namespace webcrawler
                 }
 
                 //Check if link is already in list
-                foreach (BsonDocument link in links)
+                if (MongoConnection.CheckExistDB(url) != null)
                 {
-                    if (link["url"].AsString == url)
-                    {
-                        goto here;
-                    }
+                    goto here;
                 }
+
 
                 linksOnSite.Add(url);
 
