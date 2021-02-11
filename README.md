@@ -25,4 +25,4 @@ What i will add to this project (i hope) is multhreading for much better perform
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See <href="https://github.com/linusromland/WebCrawler/blob/master/LICENSE">`LICENSE`</a> for more information.
