@@ -18,7 +18,6 @@ namespace webcrawler
         {
             startLink = startlinkIn;
             links = MongoConnection.ReadAllDB();
-            Console.WriteLine(links.Count);
             Crawl();
         }
 
@@ -34,7 +33,8 @@ namespace webcrawler
                 try
                 {
                     count = links.Count;
-                    links = MongoConnection.ReadAllDB();
+                    Random rnd = new Random();
+                    if(rnd.Next(1, 100) == 50) links = MongoConnection.ReadAllDB();
                     if (!links[j]["visited"].AsBoolean)
                     {
                         MongoConnection.UpdateDB(links[j]["url"].AsString);
@@ -44,6 +44,7 @@ namespace webcrawler
                 }
                 catch
                 {
+                    Console.WriteLine("SOMETHING WENT WRONG OR OUT OF LINKS!");
                     break;
                 }
                 
@@ -105,8 +106,7 @@ namespace webcrawler
                 linksOnSite.Add(url);
 
                 //Insert link into MongoDB
-                BsonDocument bson = new BsonDocument { { "url", url }, { "origin", currentLink }, { "visited", false } };
-                MongoConnection.InsertToDB(bson);
+                MongoConnection.InsertToDB(new BsonDocument { { "url", url }, { "origin", currentLink }, { "visited", false } });
 
             here:;
             }
