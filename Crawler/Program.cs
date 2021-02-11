@@ -44,7 +44,7 @@ namespace webcrawler
 
         public static void GetLinksFromSite(string currentLink)
         {
-            var html = new HtmlWeb();
+            HtmlWeb html = new HtmlWeb();
             HtmlDocument document;
             Console.WriteLine(currentLink);
             try
@@ -56,11 +56,11 @@ namespace webcrawler
                 return;
             }
 
-            var page = document.DocumentNode;
+            HtmlNode page = document.DocumentNode;
 
             List<string> linksOnSite = new List<string>();
 
-            foreach (var item in page.QuerySelectorAll("a"))
+            foreach (HtmlNode item in page.QuerySelectorAll("a"))
             {
                 if (item.GetAttributes("href").First() == null) continue;
 
@@ -69,14 +69,14 @@ namespace webcrawler
                 if (!url.StartsWith("https")) continue;
 
                 //Remove URL fragment
-                var hashPos = url.IndexOf('#');
+                int hashPos = url.IndexOf('#');
                 if (hashPos != -1)
                 {
                     url = url.Substring(0, hashPos);
                 }
 
                 //Check if link is already on same site
-                foreach (var link in linksOnSite)
+                foreach (string link in linksOnSite)
                 {
                     if (link == url)
                     {
@@ -85,7 +85,7 @@ namespace webcrawler
                 }
 
                 //Check if link is already in list
-                foreach (var link in links)
+                foreach (Link link in links)
                 {
                     if (link.link == url)
                     {
@@ -97,7 +97,7 @@ namespace webcrawler
                 linksOnSite.Add(url);
 
                 //Insert link into MongoDB
-                var bson = new BsonDocument { { "url", url }, { "origin", currentLink }, { "visited", false } };
+                BsonDocument bson = new BsonDocument { { "url", url }, { "origin", currentLink }, { "visited", false } };
                 MongoConnection.InsertToDB(bson);
 
             here:;
