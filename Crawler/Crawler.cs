@@ -27,19 +27,18 @@ namespace webcrawler
             //Get initial links
             int count = links.Count;
             if (count == 0) GetLinksFromSite(startLink);
-            int j = 0;
             while (true)
             {
                 try
                 {
                     count = links.Count;
                     Random rnd = new Random();
-                    if(rnd.Next(1, 100) == 50) links = MongoConnection.ReadAllDB();
-                    if (!links[j]["visited"].AsBoolean)
+                    links = MongoConnection.ReadAllDB();
+                    if (!links[Program.index]["visited"].AsBoolean)
                     {
-                        MongoConnection.UpdateDB(links[j]["url"].AsString);
+                        MongoConnection.UpdateDB(links[Program.index]["url"].AsString);
 
-                        GetLinksFromSite(links[j]["url"].AsString);
+                        GetLinksFromSite(links[Program.index]["url"].AsString);
                     }
                 }
                 catch
@@ -48,7 +47,7 @@ namespace webcrawler
                     break;
                 }
                 
-                j++;
+                Program.index++;
             }
         }
 

@@ -12,12 +12,14 @@ namespace webcrawler
 {
     class Program
     {
+
+        public static int index = 0;
         static void Main(string[] args)
         {
             MongoConnection.ConnectToDB();
             List<Thread> Threads = new List<Thread>();
 
-            for (int i = 0; i < 0; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Console.WriteLine("New");
                 Threads.Add(new Thread(createCrawler));

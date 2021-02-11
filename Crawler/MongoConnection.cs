@@ -18,7 +18,7 @@ namespace webcrawler
 
 
 
-            IMongoDatabase database = dbClient.GetDatabase("AntennsCrawler");
+            IMongoDatabase database = dbClient.GetDatabase("crawler");
             collection = database.GetCollection<BsonDocument>("Links");
         }
 
